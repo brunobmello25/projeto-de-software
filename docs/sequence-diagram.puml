@@ -1,0 +1,57 @@
+@startuml
+skinparam actorStyle awesome
+
+actor "Usuário" as usuario
+participant "Aplicação" as aplicacao
+
+participant "Administrador do sistema" as admin
+participant "Gerente de estoque" as gerente
+participant "Secretaria" as secretaria
+participant "Médico" as medico
+
+usuario -> aplicacao: Faz login na aplicação
+
+admin -> aplicacao: Faz login na aplicação
+activate admin
+admin -> aplicacao: Cadastrar usuários
+activate aplicacao
+admin --> aplicacao: Login
+deactivate admin
+admin -> aplicacao: Cadastrar salas
+activate aplicacao
+admin --> aplicacao: Login
+deactivate admin
+
+gerente -> aplicacao: Faz login na aplicação
+activate gerente
+gerente -> aplicacao: Cadastrar produtos
+activate aplicacao
+gerente --> aplicacao: Login
+deactivate gerente
+gerente -> aplicacao: Distribuir produtos em salas
+activate aplicacao
+gerente --> aplicacao: Login
+deactivate gerente
+
+secretaria -> aplicacao: Faz login na aplicação
+activate secretaria
+secretaria -> aplicacao: Cadastrar pacientes
+activate aplicacao
+secretaria --> aplicacao: Login
+deactivate secretaria
+secretaria -> aplicacao: Agendar consultas
+activate aplicacao
+secretaria --> aplicacao: Login
+deactivate secretaria
+
+medico -> aplicacao: Faz login na aplicação
+activate medico
+medico -> aplicacao: Realizar consultas
+activate aplicacao
+medico --> aplicacao: Login
+deactivate medico
+medico -> aplicacao: Utilizar produtos durante as consultas
+activate aplicacao
+medico --> aplicacao: Login
+deactivate medico
+@enduml
