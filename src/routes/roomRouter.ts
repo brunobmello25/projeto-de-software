@@ -15,7 +15,7 @@ const databaseRoomRepositoryStrategy = new DatabaseRoomRepositoryStrategy();
 
 roomRouter.get(
   "/",
-  authorizationMiddleware([Role.ADMIN, Role.STORAGE_MANAGER]),
+  authorizationMiddleware([Role.ADMIN, Role.STORAGE_MANAGER, Role.DOCTOR]),
   async (_, res) => {
     const rooms = await new ListRoomsController(
       databaseRoomRepositoryStrategy,

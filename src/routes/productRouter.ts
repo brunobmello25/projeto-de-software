@@ -11,43 +11,59 @@ import { Role } from "@prisma/client";
 
 export const productRouter = Router();
 
-productRouter.use(authorizationMiddleware([Role.STORAGE_MANAGER]));
+productRouter.use();
 
-productRouter.get("/", async (_, res) => {
-  const products = await new ListProductsController(
-    new DatabaseProductRepositoryStrategy(),
-  ).listProducts();
+productRouter.get(
+  "/",
+  authorizationMiddleware([Role.STORAGE_MANAGER, Role.DOCTOR]),
+  async (_, res) => {
+    const products = await new ListProductsController(
+      new DatabaseProductRepositoryStrategy(),
+    ).listProducts();
 
-  res.json(products);
-});
+    res.json(products);
+  },
+);
 
-productRouter.post("/", async (req, res) => {
-  const product = await new CreateProductController(
-    new DatabaseProductRepositoryStrategy(),
-  ).createProduct({
-    name: req.body.name,
-  });
+productRouter.post(
+  "/",
+  authorizationMiddleware([Role.STORAGE_MANAGER]),
+  async (req, res) => {
+    const product = await new CreateProductController(
+      new DatabaseProductRepositoryStrategy(),
+    ).createProduct({
+      name: req.body.name,
+    });
 
-  res.status(httpStatus.CREATED).json(product);
-});
+    res.status(httpStatus.CREATED).json(product);
+  },
+);
 
-productRouter.put("/:id", async (req, res) => {
-  const product = await new UpdateProductController(
-    new DatabaseProductRepositoryStrategy(),
-  ).updateProduct({
-    id: Number(req.params.id),
-    name: req.body.name,
-  });
+productRouter.put(
+  "/:id",
+  authorizationMiddleware([Role.STORAGE_MANAGER]),
+  async (req, res) => {
+    const product = await new UpdateProductController(
+      new DatabaseProductRepositoryStrategy(),
+    ).updateProduct({
+      id: Number(req.params.id),
+      name: req.body.name,
+    });
 
-  res.json(product);
-});
+    res.json(product);
+  },
+);
 
-productRouter.delete("/:id", async (req, res) => {
-  await new DeleteProductController(
-    new DatabaseProductRepositoryStrategy(),
-  ).deleteProduct({
-    id: Number(req.params.id),
-  });
+productRouter.delete(
+  "/:id",
+  authorizationMiddleware([Role.STORAGE_MANAGER]),
+  async (req, res) => {
+    await new DeleteProductController(
+      new DatabaseProductRepositoryStrategy(),
+    ).deleteProduct({
+      id: Number(req.params.id),
+    });
 
-  res.sendStatus(httpStatus.NO_CONTENT);
-});
+    res.sendStatus(httpStatus.NO_CONTENT);
+  },
+);
