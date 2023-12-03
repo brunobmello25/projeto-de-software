@@ -11,8 +11,6 @@ import { Role } from "@prisma/client";
 
 export const productRouter = Router();
 
-productRouter.use();
-
 productRouter.get(
   "/",
   authorizationMiddleware([Role.STORAGE_MANAGER, Role.DOCTOR]),
